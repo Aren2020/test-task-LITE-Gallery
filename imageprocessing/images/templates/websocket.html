@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Test
+    <script>
+        const projectId = 1;
+        const socket = new WebSocket(`ws://${window.location.host}/ws/project/${projectId}/`);
+            
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log('Статус обработки:', data.status);
+        };
+
+        socket.onclose = function(event) {
+            console.error('WebSocket закрыт');
+        };
+    </script>
+</body>
+</html>
