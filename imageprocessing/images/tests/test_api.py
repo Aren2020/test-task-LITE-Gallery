@@ -33,28 +33,28 @@ class ImageListViewTest(APITestCase):
         self.assertEqual(response.data, serializer.data)
 
 
-# class ImageUploadTest(APITestCase):
+class ImageUploadTest(APITestCase):
 
-#     def setUp(self):
-#         self.url = reverse('images:upload')
-#         self.valid_payload = {
-#             'project_id': 1,
-#             'filename': 'filename',
-#             'original': SimpleUploadedFile(name='image.jpg', content=b'fake image content', content_type='image/jpeg')
-#         }
-#         self.invalid_payload = {
-#             'project_id': 1,
-#             'filename': 'filename',
-#             'original': ''
-#         }
+    def setUp(self):
+        self.url = reverse('images:upload')
+        self.valid_payload = {
+            'project_id': 1,
+            'filename': 'filename',
+            'original': SimpleUploadedFile(name='image.jpg', content=b'fake image content', content_type='image/jpeg')
+        }
+        self.invalid_payload = {
+            'project_id': 1,
+            'filename': 'filename',
+            'original': ''
+        }
 
-#     @patch('images.views.add_thumbs.delay')  # Mock the add_thumbs.delay method
-#     def test_upload_image_success(self, mock_add_thumbs):
-#         response = self.client.post(self.url, data=self.valid_payload)
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#         self.assertTrue('upload_link' in response.data)
-#         mock_add_thumbs.assert_called_once()  # Check that the mock method was called once
+    @patch('images.views.add_thumbs.delay')  # Mock the add_thumbs.delay method
+    def test_upload_image_success(self, mock_add_thumbs):
+        response = self.client.post(self.url, data=self.valid_payload)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue('upload_link' in response.data)
+        mock_add_thumbs.assert_called_once()  # Check that the mock method was called once
 
-#     def test_upload_image_failure(self):
-#         response = self.client.post(self.url, data=self.invalid_payload)
-#         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_upload_image_failure(self):
+        response = self.client.post(self.url, data=self.invalid_payload)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
